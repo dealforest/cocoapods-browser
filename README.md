@@ -1,10 +1,10 @@
 # Cocoapods::Browser
 
-CocoaPods plugin to open a pod's homepage on the browser.
+CocoaPods plugin to open a pods homepage in the browser.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your applications Gemfile:
 
     gem 'cocoapods-browser'
 
@@ -12,13 +12,13 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself:
 
     $ gem install cocoapods-browser
 
 ## Usage
 
-Open the pod in browser
+Open the pod website in a browser like this:
 
     pod browser iOS-FakeWeb
 

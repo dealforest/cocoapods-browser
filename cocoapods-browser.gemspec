@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Cocoapods::Browser::VERSION
   spec.authors       = ["Toshihiro Morimoto"]
   spec.email         = ["dealforest.net@gmail.com"]
-  spec.description   = %q{CocoaPods plugin to open a pod's homepage on the browser.}
-  spec.summary       = %q{Open a pod's homepage on brwoser}
+  spec.description   = %q{CocoaPods plugin to open the homepage of a pod in the browser.}
+  spec.summary       = %q{Open a pods homepage in the browser}
   spec.homepage      = "https://github.com/dealforest/cocoapods-browser"
   spec.license       = "MIT"
 
