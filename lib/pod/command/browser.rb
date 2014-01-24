@@ -4,14 +4,14 @@ module Pod
       self.summary = 'Open the homepage'
 
       self.description = <<-DESC
-        Opens the homepage on browser.
+        Opens the homepage of a pod in the browser.
       DESC
 
       self.arguments = '[NAME]'
 
       def self.options
         [
-          [ '--spec', 'Open the podspec on the browser. github.com/tree/master/[NAME].podspec' ],
+          [ '--spec', 'Open the podspec in the browser. github.com/tree/master/[NAME].podspec' ],
         ].concat(super)
       end
 
@@ -54,7 +54,7 @@ module Pod
         if set = SourcesManager.search(Dependency.new(name))
           set.specification.root
         else
-          raise Informative, "Unable to find a specification for `#{name}`"
+          raise Informative, "Unable to find a podspec named `#{name}`"
         end
       end
 
