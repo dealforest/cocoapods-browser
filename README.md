@@ -1,5 +1,7 @@
 # Cocoapods::Browser
 
+[![Build Status](https://secure.travis-ci.org/dealforest/cocoapods-browser.png?branch=master)](http://travis-ci.org/dealforest/cocoapods-browser)
+
 CocoaPods plugin to open a pods homepage in the browser.
 
 ## Installation
