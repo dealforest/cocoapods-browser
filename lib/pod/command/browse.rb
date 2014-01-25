@@ -11,13 +11,15 @@ module Pod
 
       def self.options
         [
-          [ '--spec', 'Open the podspec in the browser. github.com/tree/master/[NAME].podspec' ],
+          [ '--spec', 'Open the podspec in the browser.' ],
+          [ '--release', 'Open the releases in the browser.' ],
         ].concat(super)
       end
 
       def initialize(argv)
-        @spec  = argv.flag?('spec')
-        @names = argv.arguments! unless argv.arguments.empty?
+        @spec    = argv.flag?('spec')
+        @release = argv.flag?('release')
+        @names   = argv.arguments! unless argv.arguments.empty?
         super
       end
 
@@ -85,6 +87,8 @@ module Pod
         url = spec.homepage
         if @spec && url =~ %r|^https?://github.com/|
           "%s/tree/master/%s.podspec" % [ url, spec.name ]
+        elsif @release && url =~ %r|^https?://github.com/|
+          "%s/releases" % [ url ]
         else
           url
         end
