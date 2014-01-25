@@ -1,1 +1,1 @@
-require 'pod/command/browser'
+require 'pod/command/browse'

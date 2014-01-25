@@ -1,6 +1,6 @@
 module Pod
   class Command
-    class Browser < Command
+    class Browse < Command
       self.summary = 'Open the homepage'
 
       self.description = <<-DESC

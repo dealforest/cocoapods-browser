@@ -20,7 +20,7 @@ Or install it yourself:
 
 Open the pod website in a browser like this:
 
-    pod browser iOS-FakeWeb
+    pod browse iOS-FakeWeb
 
 ## Contributing
 
