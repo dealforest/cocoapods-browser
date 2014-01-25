@@ -59,12 +59,16 @@ module Pod
             when 1
               sets.first
             when 2..9
-              text = "Please select pod: \n"
+              UI.title 'Please select pod:'
+              text = ''
               sets.each_with_index do |s, i|
-                text << "[#{i + 1}] #{s.name}\n"
+                text << "  [#{i + 1}] #{s.name}\n"
               end
               UI.puts text
-              index = $stdin.gets.chop.to_i
+              print "> (1-#{sets.size}) "
+              input = $stdin.gets
+              raise Informative, 'Cancelled' unless input
+              index = input.chop.to_i
               raise Informative, 'invalid input value' unless (1..sets.size).include?(index)
               sets[index - 1]
             else
