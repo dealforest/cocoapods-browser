@@ -53,6 +53,25 @@ module Pod
       def spec_with_name(name)
         if set = SourcesManager.search(Dependency.new(name))
           set.specification.root
+        elsif sets = Pod::SourcesManager.search_by_name(name)
+          set = begin
+            case sets.size
+            when 1
+              sets.first
+            when 2..9
+              text = "Please select pod: \n"
+              sets.each_with_index do |s, i|
+                text << "[#{i + 1}] #{s.name}\n"
+              end
+              UI.puts text
+              index = $stdin.gets.chop.to_i
+              raise Informative, 'invalid input value' unless (1..sets.size).include?(index)
+              sets[index - 1]
+            else
+              raise Informative, "Unable to many find a podspec named `#{name}` (#{sets.size})"
+            end
+          end
+          set.specification.root
         else
           raise Informative, "Unable to find a podspec named `#{name}`"
         end
