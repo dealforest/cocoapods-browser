@@ -1,5 +1,7 @@
 # Cocoapods::Browser
 
+[![Build Status](https://secure.travis-ci.org/dealforest/cocoapods-browser.png?branch=master)](http://travis-ci.org/dealforest/cocoapods-browser)
+
 CocoaPods plugin to open a pods homepage in the browser.
 
 ## Installation
@@ -20,7 +22,7 @@ Or install it yourself:
 
 Open the pod website in a browser like this:
 
-    pod browser iOS-FakeWeb
+    pod browse iOS-FakeWeb
 
 ## Contributing
 
