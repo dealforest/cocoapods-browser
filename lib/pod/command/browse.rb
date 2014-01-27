@@ -69,9 +69,11 @@ module Pod
               UI.puts text
               print "> (1-#{sets.size}) "
               input = $stdin.gets
-              raise Informative, 'Cancelled' unless input
-              index = input.chop.to_i
+              raise Interrupt unless input
+
+              index = input.try(:chop).to_i
               raise Informative, 'invalid input value' unless (1..sets.size).include?(index)
+
               sets[index - 1]
             else
               raise Informative, "Unable to many find a podspec named `#{name}` (#{sets.size})"
