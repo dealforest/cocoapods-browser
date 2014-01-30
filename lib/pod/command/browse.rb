@@ -61,7 +61,7 @@ module Pod
             when 1
               sets.first
             when 2..9
-              UI.title 'Please select pod:'
+              UI.title 'Please select a pod:'
               text = ''
               sets.each_with_index do |s, i|
                 text << "  [#{i + 1}] #{s.name}\n"
@@ -76,7 +76,7 @@ module Pod
 
               sets[index - 1]
             else
-              raise Informative, "Unable to many find a podspec named `#{name}` (#{sets.size})"
+              raise Informative, "Found too many pods starting with `#{name}` (#{sets.size})"
             end
           end
           set.specification.root
