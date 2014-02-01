@@ -60,7 +60,7 @@ module Pod
             case sets.size
             when 1
               sets.first
-            when 2..9
+            else
               UI.title 'Please select a pod:'
               text = ''
               statistics_provider = Config.instance.spec_statistics_provider
@@ -77,8 +77,6 @@ module Pod
               raise Informative, 'invalid input value' unless (1..sets.size).include?(index)
 
               sets[index - 1]
-            else
-              raise Informative, "Found too many pods starting with `#{name}` (#{sets.size})"
             end
           end
           set.specification.root
