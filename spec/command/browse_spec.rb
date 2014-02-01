@@ -20,7 +20,7 @@ module Pod
         Config.instance.skip_repo_update = false
         command = Pod::Command.parse(['browse', 'iOS-FakeWeb'])
 #         command.expects(:update_specs_repos)
-        command.expects(:spec_with_name)
+        command.expects(:specs_with_name)
         command.run
       end
     end
