@@ -37,7 +37,6 @@ module Pod
           if spec = spec_with_name(name)
             UI.title "Opening #{spec.name}" do
               url = pick_open_url(spec)
-              UI.puts(">>> #{url}")
               open!(url)
             end
           end
