@@ -63,8 +63,10 @@ module Pod
             when 2..9
               UI.title 'Please select a pod:'
               text = ''
+              statistics_provider = Config.instance.spec_statistics_provider
               sets.each_with_index do |s, i|
-                text << "  [#{i + 1}] #{s.name}\n"
+                pod = Specification::Set::Presenter.new(s, statistics_provider)
+                text << "  [#{i + 1}]\t#{formated_name(pod)}\n"
               end
               UI.puts text
               print "> (1-#{sets.size}) "
@@ -83,6 +85,15 @@ module Pod
         else
           raise Informative, "Unable to find a podspec named `#{name}`"
         end
+      end
+
+      def formated_name(pod)
+        "%-40s (Watchers: %5s, Forks: %5s, Pushed: %s)" % [
+          pod.name.green,
+          pod.github_watchers || '-',
+          pod.github_forks || '-',
+          pod.github_last_activity.try(:yellow) || '-',
+        ]
       end
 
       def pick_open_url(spec)
