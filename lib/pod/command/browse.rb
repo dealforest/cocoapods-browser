@@ -34,10 +34,12 @@ module Pod
       def run
 #         update_specs_repos
         @names.each do |name|
-          if spec = spec_with_name(name)
-            UI.title "Opening #{spec.name}" do
-              url = pick_open_url(spec)
-              open!(url)
+          if specs = specs_with_name(name)
+            specs.each do |spec|
+              UI.title "Opening #{spec.name}" do
+                url = pick_open_url(spec)
+                open!(url)
+              end
             end
           end
         end
@@ -51,37 +53,38 @@ module Pod
         end
       end
 
-      def spec_with_name(name)
+      def specs_with_name(name)
+        specs = []
         if set = SourcesManager.search(Dependency.new(name))
-          set.specification.root
+          specs << set.specification.root
         elsif sets = Pod::SourcesManager.search_by_name(name)
-          set = begin
-            case sets.size
-            when 1
-              sets.first
-            else
-              UI.title 'Please select a pod:'
-              text = ''
-              statistics_provider = Config.instance.spec_statistics_provider
-              sets.each_with_index do |s, i|
-                pod = Specification::Set::Presenter.new(s, statistics_provider)
-                text << "  [#{i + 1}]\t#{formated_name(pod)}\n"
-              end
-              UI.puts text
-              print "> (1-#{sets.size}) "
-              input = $stdin.gets
-              raise Interrupt unless input
-
-              index = input.try(:chop).to_i
-              raise Informative, 'invalid input value' unless (1..sets.size).include?(index)
-
-              sets[index - 1]
+          case sets.size
+          when 1
+            specs << sets.first.specification.root
+          else
+            UI.title 'Please select a pod:'
+            text = ''
+            statistics_provider = Config.instance.spec_statistics_provider
+            sets.each_with_index do |s, i|
+              pod = Specification::Set::Presenter.new(s, statistics_provider)
+              text << "  [#{i + 1}]\t#{formated_name(pod)}\n"
             end
+            UI.puts text
+            print "> (1-#{sets.size}) "
+            input = $stdin.gets
+            raise Interrupt unless input
+
+            range = 1..sets.size
+            input.split(',').each do |i|
+              index = i.try(:strip).to_i
+              specs << sets[index - 1].specification.root if range.include?(index)
+            end
+            raise Informative, 'invalid input value' if specs.empty?
           end
-          set.specification.root
         else
           raise Informative, "Unable to find a podspec named `#{name}`"
         end
+        specs
       end
 
       def formated_name(pod)
