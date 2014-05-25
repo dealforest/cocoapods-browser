@@ -7,7 +7,7 @@ module Pod
         Opens the homepage of a pod in the browser.
       DESC
 
-      self.arguments = '[NAME]'
+      self.arguments = [['[NAME]', :optional]]
 
       def self.options
         [
