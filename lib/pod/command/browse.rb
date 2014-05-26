@@ -11,8 +11,8 @@ module Pod
 
       def self.options
         [
-          [ '--spec', 'Open the podspec in the browser.' ],
-          [ '--release', 'Open the releases in the browser.' ],
+          ['--spec', 'Open the podspec in the browser.'],
+          ['--release', 'Open the releases in the browser.'],
         ].concat(super)
       end
 
@@ -32,24 +32,25 @@ module Pod
       executable :open
 
       def run
-#         update_specs_repos
+        # update_specs_repos
         @names.each do |name|
-          if specs = specs_with_name(name)
-            specs.each do |spec|
-              UI.title "Opening #{spec.name}" do
-                url = pick_open_url(spec)
-                open!(url)
-              end
+          specs = specs_with_name(name)
+          next unless specs
+
+          specs.each do |spec|
+            UI.title "Opening #{spec.name}" do
+              url = pick_open_url(spec)
+              open!(url)
             end
           end
         end
       end
 
       def update_specs_repos
-        unless config.skip_repo_update?
-          UI.section 'Updating spec repositories' do
-            SourcesManager.update
-          end
+        return if config.skip_repo_update?
+
+        UI.section 'Updating spec repositories' do
+          SourcesManager.update
         end
       end
 
@@ -88,25 +89,24 @@ module Pod
       end
 
       def formated_name(pod)
-        "%-40s (Watchers: %5s, Forks: %5s, Pushed: %s)" % [
-          pod.name.green,
-          pod.github_watchers || '-',
-          pod.github_forks || '-',
-          pod.github_last_activity.try(:yellow) || '-',
-        ]
+        format('%-40s (Watchers: %5s, Forks: %5s, Pushed: %s)',
+               pod.name.green,
+               pod.github_watchers || '-',
+               pod.github_forks || '-',
+               pod.github_last_activity.try(:yellow) || '-',
+              )
       end
 
       def pick_open_url(spec)
         url = spec.homepage
-        if @spec && url =~ %r|^https?://github.com/|
-          "%s/tree/master/%s.podspec" % [ url, spec.name ]
-        elsif @release && url =~ %r|^https?://github.com/|
-          "%s/releases" % [ url ]
+        if @spec && url =~ %r{^https?://github.com/}
+          format('%s/tree/master/%s.podspec', url, spec.name)
+        elsif @release && url =~ %r{^https?://github.com/}
+          format('%s/releases', url)
         else
           url
         end
       end
-
     end
   end
 end
