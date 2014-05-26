@@ -1,6 +1,8 @@
 # Cocoapods::Browser
 
 [![Build Status](https://secure.travis-ci.org/dealforest/cocoapods-browser.png?branch=master)](http://travis-ci.org/dealforest/cocoapods-browser)
+[![Coverage](https://img.shields.io/codeclimate/coverage/github/dealforest/cocoapods-browser.svg?style=flat)](https://codeclimate.com/github/dealforest/cocoapods-browser)
+[![Code Climate](https://codeclimate.com/github/dealforest/cocoapods-browser.png)](https://codeclimate.com/github/dealforest/cocoapods-browser)
 
 CocoaPods plugin to open a pods homepage in the browser.
 

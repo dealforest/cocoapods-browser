@@ -1,4 +1,4 @@
-require "cocoapods/browser/version"
+require 'cocoapods/browser/version'
 
 module Cocoapods
   module Browser
