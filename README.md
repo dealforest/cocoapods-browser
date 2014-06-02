@@ -3,6 +3,7 @@
 [![Build Status](http://img.shields.io/travis/dealforest/cocoapods-browser.svg?style=flat)](http://travis-ci.org/dealforestcocoapods-browser)
 [![Coverage](https://img.shields.io/codeclimate/coverage/github/dealforest/cocoapods-browser.svg?style=flat)](https://codeclimate.com/github/dealforest/cocoapods-browser)
 [![Code Climate](http://img.shields.io/codeclimate/github/dealforest/cocoapods-browser.svg?style=flat)](http://travis-ci.org/dealforest/cocoapods-browser)
+[![Gem](http://img.shields.io/gem/v/cocoapods-browser.svg?style=flat)](http://rubygems.org/gems/cocoapods-browser)
 
 CocoaPods plugin to open a pods homepage in the browser.
 
