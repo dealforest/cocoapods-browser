@@ -13,13 +13,15 @@ module Pod
         [
           ['--spec', 'Open the podspec in the browser.'],
           ['--release', 'Open the releases in the browser.'],
+          ['--info', 'Show more pods information of github (very slowly)'],
         ].concat(super)
       end
 
       def initialize(argv)
-        @spec    = argv.flag?('spec')
+        @spec = argv.flag?('spec')
         @release = argv.flag?('release')
-        @names   = argv.arguments! unless argv.arguments.empty?
+        @info = argv.flag?('info')
+        @names = argv.arguments! unless argv.arguments.empty?
         super
       end
 
@@ -38,7 +40,7 @@ module Pod
           next unless specs
 
           specs.each do |spec|
-            UI.title "Opening #{spec.name}" do
+            UI.message "Opening #{spec.name}" do
               url = pick_open_url(spec)
               open!(url)
             end
@@ -63,24 +65,7 @@ module Pod
           when 1
             specs << sets.first.specification.root
           else
-            UI.title 'Please select a pod:'
-            text = ''
-            statistics_provider = Config.instance.spec_statistics_provider
-            sets.each_with_index do |s, i|
-              pod = Specification::Set::Presenter.new(s, statistics_provider)
-              text << "  [#{i + 1}]\t#{formated_name(pod)}\n"
-            end
-            UI.puts text
-            print "> (1-#{sets.size}) "
-            input = $stdin.gets
-            raise Interrupt unless input
-
-            range = 1..sets.size
-            input.split(',').each do |i|
-              index = i.try(:strip).to_i
-              specs << sets[index - 1].specification.root if range.include?(index)
-            end
-            raise Informative, 'invalid input value' if specs.empty?
+            specs = interactive_select_sets(sets)
           end
         else
           raise Informative, "Unable to find a podspec named `#{name}`"
@@ -88,13 +73,37 @@ module Pod
         specs
       end
 
+      def interactive_select_sets(sets)
+        UI.puts "found #{sets.size} pods"
+        UI.title 'Please select a pod:'
+
+        statistics_provider = Config.instance.spec_statistics_provider
+        sets.each_with_index do |s, i|
+          pod = Specification::Set::Presenter.new(s, statistics_provider)
+          UI.puts "  [#{i + 1}]\t#{formated_name(pod)}\n"
+        end
+        print "> (1-#{sets.size}) "
+        input = $stdin.gets
+        raise Interrupt unless input
+
+        specs = []
+        range = 1..sets.size
+        input.split(',').each do |i|
+          index = i.try(:strip).to_i
+          specs << sets[index - 1].specification.root if range.include?(index)
+        end
+        raise Informative, 'invalid input value' if specs.empty?
+        specs
+      end
+
       def formated_name(pod)
-        format('%-40s (Watchers: %5s, Forks: %5s, Pushed: %s)',
-               pod.name.green,
-               pod.github_watchers || '-',
-               pod.github_forks || '-',
-               pod.github_last_activity.try(:yellow) || '-',
-              )
+        text = format('%s (%s)', pod.name.green, pod.license)
+        text << format("\n\tWatchers: %5s, Forks: %5s, Last Pushed: %s",
+                       pod.github_watchers || '-',
+                       pod.github_forks || '-',
+                       pod.github_last_activity.try(:yellow) || '-',
+                       )
+        text << "\n\t#{pod.summary}\n"
       end
 
       def pick_open_url(spec)

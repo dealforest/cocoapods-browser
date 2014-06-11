@@ -6,13 +6,5 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-LineLength:
-  Max: 82
-
-# Offense count: 1
 MethodLength:
   Max: 30
-
-# Offense count: 1
-CyclomaticComplexity:
-  Max: 12
