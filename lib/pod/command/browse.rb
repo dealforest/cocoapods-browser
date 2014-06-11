@@ -102,7 +102,7 @@ module Pod
                        pod.github_watchers || '-',
                        pod.github_forks || '-',
                        pod.github_last_activity.try(:yellow) || '-',
-                       )
+                       ) if @info
         text << "\n\t#{pod.summary}\n"
       end
 
