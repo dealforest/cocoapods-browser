@@ -7,7 +7,7 @@ module Pod
         Opens the homepage of a pod in the browser.
       DESC
 
-      self.arguments = [ CLAide::Argument.new(%w(NAME), true) ]
+      self.arguments = [CLAide::Argument.new(%w(NAME), true)]
 
       def self.options
         [
